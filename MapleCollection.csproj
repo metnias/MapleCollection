@@ -1,0 +1,190 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{F64134A0-2CB3-4BB4-ADE3-33D42F01ADE3}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>MapleCollection</RootNamespace>
+    <AssemblyName>MapleCollection</AssemblyName>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="BepInEx, Version=5.0.1.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\RWDownpour\BepInEx.dll</HintPath>
+    </Reference>
+    <Reference Include="HOOKS-Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\RWDownpour\HOOKS-Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="PUBLIC-Assembly-CSharp">
+      <HintPath>..\References\RWDownpour\PUBLIC-Assembly-CSharp.dll</HintPath>
+    </Reference>
+    <Reference Include="SlugBase, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\RWDownpour\SlugBase.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+    <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\References\RWDownpour\UnityEngine.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+      <HintPath>..\References\RWDownpour\UnityEngine.CoreModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.InputModule">
+      <HintPath>..\References\RWDownpour\UnityEngine.InputModule.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="AddPlayer.cs" />
+    <Compile Include="CatDecoration.cs" />
+    <None Include="DragonKnight\KnightDecoration.cs" />
+    <None Include="DragonKnight\KnightSupplement.cs" />
+    <None Include="DragonKnight\PartnerLizard.cs" />
+    <Compile Include="MapleEnums.cs" />
+    <Compile Include="MaplePlugin.cs" />
+    <Compile Include="ModifyCat.cs" />
+    <Compile Include="ModifyWorld.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="PublicBee.cs" />
+    <Compile Include="SporeCat\SporeCatDecoration.cs" />
+    <Compile Include="SporeCat\SporeCatPuffBall.cs" />
+    <Compile Include="SporeCat\SporeCatPuffVisionObscurer.cs" />
+    <Compile Include="CatSupplement.cs" />
+    <Compile Include="SporeCat\SporeCatSupplement.cs" />
+    <None Include="slugbase\scenes\slugcat - spore.json" />
+    <None Include="slugbase\scenes\sleep screen - spore.json" />
+    <None Include="slugbase\scenes\spore ghost slugcat.json" />
+    <None Include="SugarCat\SugarCatDecoration.cs" />
+    <None Include="SugarCat\SugarCatSupplement.cs" />
+    <AdditionalFiles Include="modinfo.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </AdditionalFiles>
+    <None Include="MapleMod.cs" />
+    <Compile Include="TutorialPatch.cs" />
+    <None Include="slugbase\sporecat.json" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include=".editorconfig" />
+  </ItemGroup>
+  <ItemGroup>
+    <AdditionalFiles Include="atlases\SugarHeadStripes.png" />
+    <AdditionalFiles Include="atlases\SugarHeadStripes.txt" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait00-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait01-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait10-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait11-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait20-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait21-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait30-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait31-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait40-slugspore.png" />
+    <AdditionalFiles Include="illustrations\multiplayerportrait41-slugspore.png" />
+    <Content Include="slugbase\scenes\sleep screen - spore\Sleep - 1.png" />
+    <Content Include="slugbase\scenes\sleep screen - spore\Sleep - 2 - Spore.png" />
+    <Content Include="slugbase\scenes\sleep screen - spore\Sleep - 3.png" />
+    <Content Include="slugbase\scenes\sleep screen - spore\Sleep - 4.png" />
+    <Content Include="slugbase\scenes\sleep screen - spore\Sleep - 5.png" />
+    <Content Include="slugbase\scenes\sleep screen - spore\Sleep Screen - Spore - Flat.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Slugcat - Spore - Flat.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Spore Background - 5.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Spore BkgPlants - 3.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Spore FgPlants - 0.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Spore Haze - 4.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Spore Slugcat - 2.png" />
+    <Content Include="slugbase\scenes\slugcat - spore\Spore Vines - 1.png" />
+    <Content Include="slugbase\scenes\spore ghost slugcat\positions.txt" />
+    <Content Include="slugbase\scenes\spore ghost slugcat\Spore Ghost A.png" />
+    <Content Include="slugbase\scenes\spore ghost slugcat\Spore Ghost B.png" />
+    <Content Include="slugbase\scenes\spore ghost slugcat\Spore Ghost Bkg.png" />
+    <Content Include="slugbase\scenes\spore ghost slugcat\Spore Ghost Slugcat - Flat.png" />
+    <Content Include="text\text_chi\strings.txt" />
+    <Content Include="text\text_kor\strings.txt" />
+    <AdditionalFiles Include="thumbnail.png" />
+    <None Include="MapleResources\Sprites\SugarHeadStripes.txt" />
+    <None Include="MapleResources\Sprites\SugarHeadStripesData.txt" />
+    <Content Include="MapleResources_\Sprites\SugarHeadStripes.png" />
+    <Content Include="MapleResources_\Sprites\SugarHeadStripes.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\positions.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\Sleep - 1.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\Sleep - 2 - Spore.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\Sleep - 3.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\Sleep - 4.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\Sleep - 5.txt" />
+    <None Include="MapleResources\Scenes\Sleep Screen - Spore\Sleep Screen - Spore - Flat.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\positions.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Slugcat - Spore - Flat.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore Background - 5.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore BkgPlants - 3.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore FgPlants - 0.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore Haze - 4.png" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore Haze - 4.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore Slugcat - 2.txt" />
+    <None Include="MapleResources\Scenes\Slugcat - Spore\Spore Vines - 1.txt" />
+    <None Include="MapleResources\Scenes\Spore Ghost Slugcat\positions.txt" />
+    <None Include="MapleResources\Scenes\Spore Ghost Slugcat\Spore Ghost A.txt" />
+    <None Include="MapleResources\Scenes\Spore Ghost Slugcat\Spore Ghost B.txt" />
+    <None Include="MapleResources\Scenes\Spore Ghost Slugcat\Spore Ghost Bkg.txt" />
+    <None Include="MapleResources\Scenes\Spore Ghost Slugcat\Spore Ghost Slugcat - Flat.txt" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\positions.txt" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\Sleep - 1.png" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\Sleep - 2 - Spore.png" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\Sleep - 3.png" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\Sleep - 4.png" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\Sleep - 5.png" />
+    <Content Include="MapleResources_\Scenes\Sleep Screen - Spore\Sleep Screen - Spore - Flat.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\positions.txt" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Slugcat - Spore - Flat.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Spore Background - 5.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Spore BkgPlants - 3.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Spore FgPlants - 0.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Spore Haze - 4.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Spore Slugcat - 2.png" />
+    <Content Include="MapleResources_\Scenes\Slugcat - Spore\Spore Vines - 1.png" />
+    <Content Include="MapleResources_\Scenes\Spore Ghost Slugcat\positions.txt" />
+    <Content Include="MapleResources_\Scenes\Spore Ghost Slugcat\Spore Ghost A.png" />
+    <Content Include="MapleResources_\Scenes\Spore Ghost Slugcat\Spore Ghost B.png" />
+    <Content Include="MapleResources_\Scenes\Spore Ghost Slugcat\Spore Ghost Bkg.png" />
+    <Content Include="MapleResources_\Scenes\Spore Ghost Slugcat\Spore Ghost Slugcat - Flat.png" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <PropertyGroup>
+    <PostBuildEvent>copy /Y "$(TargetPath)" "D:\SteamLibrary\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\maplecollection\plugins\$(TargetName).dll"
+copy /Y "$(TargetDir)modinfo.json" "D:\SteamLibrary\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\maplecollection\modinfo.json"
+xcopy "$(ProjectDir)slugbase\*.*" "D:\SteamLibrary\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\maplecollection\slugbase" /Y /I /E
+xcopy "$(ProjectDir)illustrations\*.*" "D:\SteamLibrary\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\maplecollection\illustrations" /Y /I /E
+xcopy "$(ProjectDir)text\*.*" "D:\SteamLibrary\steamapps\common\Rain World\RainWorld_Data\StreamingAssets\mods\maplecollection\text" /Y /I /E</PostBuildEvent>
+  </PropertyGroup>
+</Project>

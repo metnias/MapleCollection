@@ -1,0 +1,37 @@
+{
+  "id": "SlugSpore",
+  "name": "The Sporecat",
+  "description": "Living with spores symbiotically, you mainly hunt and feed on arthropods.<LINE>Apart from your strength against arthropods, you lack any other physical capabilities.",
+
+  "features": {
+    "color": "D8C195",
+    "custom_colors": [
+      {
+        "name": "Body",
+        "story": "D8C195",
+        "arena": [ "F0F0FF", "FFFF73", "FF7373", "1E112E" ]
+      },
+      {
+        "name": "Eyes",
+        "story": "010101",
+        "arena": [ "010101", "010101", "010101", "BBB6BC" ]
+      },
+      {
+        "name": "Dots",
+        "story": "CCFF80",
+        "arena": [ "CCFF80", "CCFF80", "CCFF80", "CCFF80" ]
+      }
+    ],
+    "start_room": "LF_A11",
+    "select_menu_scene": "slugcat - spore",
+    "select_menu_scene_ascended": "spore ghost slugcat",
+    "sleep_scene": "sleep screen - spore",
+
+    "has_dreams": false,
+    "food_min": 5,
+    "food_max": 8,
+    "auto_grab_batflies": false,
+    "throw_skill": 0,
+    "world_state": [ "Gourmand", "Red" ]
+  }
+}

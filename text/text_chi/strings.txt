@@ -1,0 +1,24 @@
+﻿0maplecollection-name|孢子猫
+// Sporecat
+maplecollection-description|添加一个名为孢子猫的游玩模式，它是一种谨慎的食虫生物.
+// Adds a new slugcat campaign named Sporecat, a cautious insectivore.
+Sporecat|孢子猫
+The Sporecat|孢子猫
+THE SPORECAT|孢子猫
+Living with spores symbiotically, you mainly hunt and feed on arthropods.<LINE>Apart from your strength against arthropods, you lack any other physical capabilities.|与孢子共生，主要以捕食节肢动物生存.<LINE>你拥有对抗节肢动物的杰出力量，但其他的身体能力较为弱小
+Dots|点纹
+// For dots colours on sporecat
+Sporecat interactions:|孢子猫互动:
+Sporecat's diet is exclusively insectivore, regardless of the prey's size|孢子猫喜好捕食节肢动物，依靠食用它们生存
+Hold UP and press PICK UP to grab a Puffball from the tail|按住上和拾取从尾巴上摘下一个孢子果
+Hold DOWN and PICK UP for charged explosion|按住下并长压拾取键，引爆你尾巴上所有的孢子
+However, using too many Puffballs costs hunger|要记得，如果消耗过多的孢子果会减少你的饱食度
+
+Sugarcat|Sugarcat
+The Sugarcat|The Sugarcat
+THE SUGARCAT|THE SUGARCAT
+Your natural aroma attracts more predators, but you can secrete<LINE>sticky and sugary fluid to snare them before they can capture.|Your natural aroma attracts more predators, but you can secrete<LINE>sticky and sugary fluid to snare them before they can capture.
+
+Dragonknight|Dragonknight
+The Dragonknight|The Dragonknight
+THE DRAGONKNIGHT|THE DRAGONKNIGHT

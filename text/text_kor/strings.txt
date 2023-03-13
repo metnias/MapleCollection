@@ -1,0 +1,24 @@
+﻿0maplecollection-name|포자냥이
+// Sporecat
+maplecollection-description|신중한 식충 포식자, 포자냥이 캠페인을 새로이 추가합니다.
+// Adds a new slugcat campaign named Sporecat, a cautious insectivore.
+Sporecat|포자냥이
+The Sporecat|포자냥이
+THE SPORECAT|포자냥이
+Living with spores symbiotically, you mainly hunt and feed on arthropods.<LINE>Apart from your strength against arthropods, you lack any other physical capabilities.|포자와 공생하며, 당신은 절지동물만 사냥해 먹는다.<LINE>절지동물에 강한 점 외의 다른 신체적 능력은 부족하다.
+Dots|점
+// For dots colours on sporecat
+Sporecat interactions:|포자냥이 상호작용:
+Sporecat's diet is exclusively insectivore, regardless of the prey's size|포자냥이는 크기에 상관 없이 절지동물만 먹는다
+Hold UP and press PICK UP to grab a Puffball from the tail|위를 누르면서 줍기 버튼을 눌러 꼬리에서 포자를 떼어낸다
+Hold DOWN and PICK UP for charged explosion|아래와 줍기를 길게 눌러 충전해 폭발한다
+However, using too many Puffballs costs hunger|하지만, 포자를 너무 많이 사용하면 허기가 진다
+
+Sugarcat|설탕냥이
+The Sugarcat|설탕냥이
+THE SUGARCAT|설탕냥이
+Your natural aroma attracts more predators, but you can secrete<LINE>sticky and sugary fluid to snare them before they can capture.|당신의 자연스러운 향취가 더 많은 포식자를 유혹하지만,<LINE>끈적하고 달콤한 액체를 분비해 붙잡히기 전에 붙잡을 수 있다.
+
+Dragonknight|용기사
+The Dragonknight|용기사
+THE DRAGONKNIGHT|용기사
