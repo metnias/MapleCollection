@@ -6,14 +6,14 @@ namespace MapleCollection.SporeCat
 {
     public class SporeCatDecoration : CatDecoration
     {
-        public SporeCatDecoration(Player owner) : base(owner)
+        public SporeCatDecoration(AbstractCreature owner) : base(owner)
         {
             thirdColor = dotDefaultColor;
         }
 
         private int GetTailIdx(int idx) => this.dotIdx[idx]; //Mathf.FloorToInt((OwnerGrp.tail.Length - 1) * ((float)dotIdx / dots.Length));
 
-        private SporeCatSupplement OwnerSub => ModifyCat.GetSub(this.owner) as SporeCatSupplement;
+        private SporeCatSupplement OwnerSub => ModifyCat.GetSub(this.player) as SporeCatSupplement;
 
         private Vector2[] dots; private int[] dotIdx;
 
@@ -67,7 +67,9 @@ namespace MapleCollection.SporeCat
                 this.sprites[i].scaleY = Custom.LerpMap(this.dots[i].magnitude, 0f, 1f, 1f, 0.5f, 4f);
                 this.sprites[i].scaleX = Mathf.Lerp(this.sprites[i].scaleY, 1f, 0.5f);
             }
-            if (this.OwnerSub.Charge > 0.7f)
+            if (this.OwnerSub.Charge > 0.7f) SqueezeEyes();
+
+            void SqueezeEyes()
             {
                 sLeaser.sprites[9].element = Futile.atlasManager.GetElementWithName("FaceStunned");
                 Vector2 pos0 = Vector2.Lerp(this.OwnerGraphic.drawPositions[0, 1], this.OwnerGraphic.drawPositions[0, 0], timeStacker);

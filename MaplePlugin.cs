@@ -8,9 +8,15 @@ using BepInEx.Logging;
 using System.Linq;
 using System;
 using MapleCollection.SporeCat;
+using System.Security.Permissions;
+using System.Security;
 
 #region Assembly attributes
 
+[module: UnverifiableCode]
+#pragma warning disable CS0618
+[assembly: SecurityPermission(SecurityAction.RequestMinimum, SkipVerification = true)]
+#pragma warning restore CS0618
 [assembly: AssemblyVersion(MaplePlugin.PLUGIN_VERSION)]
 [assembly: AssemblyFileVersion(MaplePlugin.PLUGIN_VERSION)]
 [assembly: AssemblyTitle(MaplePlugin.PLUGIN_NAME + " (" + MaplePlugin.PLUGIN_ID + ")")]
@@ -26,7 +32,7 @@ namespace MapleCollection
     {
         public const string PLUGIN_ID = "com.rainworldgame.maplecollection.plugin";
         public const string PLUGIN_NAME = "MapleCollection";
-        public const string PLUGIN_VERSION = "2.0.0.3";
+        public const string PLUGIN_VERSION = "2.0.0.4";
 
         public void OnEnable()
         {
@@ -46,6 +52,7 @@ namespace MapleCollection
             init = true;
             lastMSCEnabled = ModManager.MSC;
             MapleEnums.RegisterExtEnum();
+
             AddPlayer.SubPatch();
             ModifyCat.SubPatch();
             ModifyWorld.SubPatch();

@@ -95,11 +95,16 @@ namespace MapleCollection
             ModifyCat.ClearSubsAndDecos(); // clear
             orig(self, manager);
             if (!self.IsStorySession) return;
-            for (int i = 0; i < self.Players.Count; i++)
-                if (self.world.GetAbstractRoom(self.Players[i].pos) != null)
-                    if (self.world.GetAbstractRoom(self.Players[i].pos).shelter) continue;
-                    else if (self.world.GetAbstractRoom(self.Players[i].pos).name == "LF_A11") // Sporecat
-                        self.Players[i].pos.Tile = new IntVector2(11, 30);
+            SetStartPosition();
+
+            void SetStartPosition()
+            {
+                for (int i = 0; i < self.Players.Count; i++)
+                    if (self.world.GetAbstractRoom(self.Players[i].pos) != null)
+                        if (self.world.GetAbstractRoom(self.Players[i].pos).shelter) continue;
+                        else if (self.world.GetAbstractRoom(self.Players[i].pos).name == "LF_A11") // Sporecat
+                            self.Players[i].pos.Tile = new IntVector2(11, 30);
+            }
         }
 
         private static void GetWorldLoaded(On.OverWorld.orig_LoadWorld orig, OverWorld self, string worldName, SlugcatStats.Name playerCharacterNumber, bool singleRoomWorld)

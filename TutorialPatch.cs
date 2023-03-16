@@ -160,11 +160,14 @@ namespace MapleCollection
                     case MapleEnums.MapleSlug.SlugKnight: //DragonKnight
                         break;
                 }
+                map.pickupButtonInstructions.text = text;
+                /*
                 Vector2 position = map.pickupButtonInstructions.pos;
                 map.RemoveSubObject(map.pickupButtonInstructions);
                 map.pickupButtonInstructions = new MenuLabel(menu, map, text, position, new Vector2(100f, 20f), false);
                 map.pickupButtonInstructions.label.alignment = FLabelAlignment.Left;
                 map.subObjects.Add(map.pickupButtonInstructions);
+                */
             }
         }
     }

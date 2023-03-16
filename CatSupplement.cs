@@ -6,18 +6,19 @@ namespace MapleCollection
 {
     public abstract class CatSupplement
     {
-        public CatSupplement(Player owner)
+        public CatSupplement(AbstractCreature owner)
         {
             this.owner = owner;
         }
 
-        public readonly Player owner;
+        public readonly AbstractCreature owner;
+        public Player player => owner.realizedCreature as Player;
         public static FoodMeter meter;
         internal ChunkSoundEmitter soundLoop;
 
         public virtual void Update()
         {
-            if (this.owner.room == null || this.owner.mainBodyChunk == null) { return; }
+            if (this.player.room == null || this.player.mainBodyChunk == null) { return; }
         }
 
         public virtual void Destroy()

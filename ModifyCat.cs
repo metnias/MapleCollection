@@ -31,8 +31,8 @@ namespace MapleCollection
             On.PlayerGraphics.Update += GrafUpdatePatch;
 
             SporeCatPuffBall.SubPatch();
-            subs = new CatSupplement[4]; ghostSubs = new Dictionary<Player, CatSupplement>();
-            decos = new CatDecoration[4]; ghostDecos = new Dictionary<Player, CatDecoration>();
+            subs = new CatSupplement[4]; ghostSubs = new Dictionary<AbstractCreature, CatSupplement>();
+            decos = new CatDecoration[4]; ghostDecos = new Dictionary<AbstractCreature, CatDecoration>();
 
             if (ModManager.MSC) OnMSCEnablePatch();
         }
@@ -82,7 +82,7 @@ namespace MapleCollection
         }
 
         private static CatSupplement[] subs;
-        private static Dictionary<Player, CatSupplement> ghostSubs;
+        private static Dictionary<AbstractCreature, CatSupplement> ghostSubs;
 
         public static void ClearSubsAndDecos()
         {
@@ -92,9 +92,12 @@ namespace MapleCollection
             ghostDecos.Clear();
         }
 
-        public static CatSupplement GetSub(Player self)
+        public static CatSupplement GetSub(Player self) => GetSub(self.abstractCreature);
+
+        public static CatSupplement GetSub(AbstractCreature self)
         {
-            if (!self.playerState.isGhost) { return subs[self.playerState.playerNumber]; }
+            if (!(self.realizedCreature?.State is PlayerState pState)) return null;
+            if (!pState.isGhost) { return subs[pState.playerNumber]; }
             if (ghostSubs.TryGetValue(self, out var sub)) return sub;
             return null;
         }
@@ -106,15 +109,16 @@ namespace MapleCollection
             {
                 case MapleSlug.SlugSpore:
                     {
+                        if (GetSub(self.abstractCreature) != null) break;
                         if (!self.playerState.isGhost)
                         {
-                            subs[self.playerState.playerNumber] = new SporeCatSupplement(self);
-                            decos[self.playerState.playerNumber] = new SporeCatDecoration(self);
+                            subs[self.playerState.playerNumber] = new SporeCatSupplement(self.abstractCreature);
+                            decos[self.playerState.playerNumber] = new SporeCatDecoration(self.abstractCreature);
                         }
                         else
                         {
-                            ghostSubs.Add(self, new SporeCatSupplement(self));
-                            ghostDecos.Add(self, new SporeCatDecoration(self));
+                            ghostSubs.Add(self.abstractCreature, new SporeCatSupplement(self.abstractCreature));
+                            ghostDecos.Add(self.abstractCreature, new SporeCatDecoration(self.abstractCreature));
                         }
                     }
                     break;
@@ -198,7 +202,7 @@ namespace MapleCollection
 
                     if (self.slugcatStats.name == SlugSpore)
                     {
-                        if (ball.parentDeco.owner != self) return ObjectGrabability.CantGrab; // use yours, another sporecat!
+                        if (ball.parentDeco.player != self) return ObjectGrabability.CantGrab; // use yours, another sporecat!
                     }
                     else if (ModManager.CoopAvailable && !Custom.rainWorld.options.friendlySteal)
                         return ObjectGrabability.CantGrab; // don't snag when friendlySteal is off
@@ -262,12 +266,15 @@ namespace MapleCollection
         }
 
         private static CatDecoration[] decos;
-        private static Dictionary<Player, CatDecoration> ghostDecos;
+        private static Dictionary<AbstractCreature, CatDecoration> ghostDecos;
 
-        public static CatDecoration GetDeco(PlayerGraphics self)
+        public static CatDecoration GetDeco(PlayerGraphics self) => GetDeco(self.player.abstractCreature);
+
+        public static CatDecoration GetDeco(AbstractCreature self)
         {
-            if (!self.player.playerState.isGhost) { return decos[self.player.playerState.playerNumber]; }
-            if (ghostDecos.TryGetValue(self.player, out var deco)) return deco;
+            if (!(self.realizedCreature?.State is PlayerState pState)) return null;
+            if (!pState.isGhost) { return decos[pState.playerNumber]; }
+            if (ghostDecos.TryGetValue(self, out var deco)) return deco;
             return null;
         }
 

@@ -19,19 +19,10 @@ namespace MapleCollection.SporeCat
             base.bodyChunks = new BodyChunk[1];
             base.bodyChunks[0] = new BodyChunk(this, 0, new Vector2(0f, 0f), 7f, 0.11f);
             this.bodyChunkConnections = new PhysicalObject.BodyChunkConnection[0];
-            base.airFriction = 0.98f;
-            base.gravity = 0.86f;
-            this.bounce = 0.2f;
-            this.surfaceFriction = 0.3f;
-            this.collisionLayer = 2;
-            base.waterFriction = 0.98f;
-            base.buoyancy = 1.8f;
-            this.tailPos = base.firstChunk.pos;
+            SetupPhysicParameters();
 #pragma warning disable CS0618
             int seed = UnityEngine.Random.seed;
             UnityEngine.Random.seed = abstractPhysicalObject.ID.RandomSeed;
-            this.exitThrownModeSpeed = 15f;
-            this.superBoom = false; this.deerCall = true;
             this.dots = new Vector2[UnityEngine.Random.Range(6, 11)];
             for (int i = 0; i < this.dots.Length; i++)
             {
@@ -39,45 +30,64 @@ namespace MapleCollection.SporeCat
             }
             UnityEngine.Random.seed = seed;
 #pragma warning restore CS0618
-            for (int j = 0; j < 3; j++)
+            AdjustDots();
+            this.segments = new Vector2[(int)Mathf.Lerp(3f, 8f, UnityEngine.Random.value), 3]; //15f
+            this.growth = SporeCatSupplement.recoverTime;
+
+            void SetupPhysicParameters()
             {
-                for (int k = 0; k < this.dots.Length; k++)
+                base.airFriction = 0.98f;
+                base.gravity = 0.86f;
+                this.bounce = 0.2f;
+                this.surfaceFriction = 0.3f;
+                this.collisionLayer = 2;
+                base.waterFriction = 0.98f;
+                base.buoyancy = 1.8f;
+                this.tailPos = base.firstChunk.pos;
+                this.exitThrownModeSpeed = 15f;
+                this.superBoom = false; this.deerCall = true;
+            }
+
+            void AdjustDots()
+            {
+                for (int j = 0; j < 3; j++)
                 {
-                    for (int l = 0; l < this.dots.Length; l++)
+                    for (int k = 0; k < this.dots.Length; k++)
                     {
-                        if (Custom.DistLess(this.dots[k], this.dots[l], 1.4f))
+                        for (int l = 0; l < this.dots.Length; l++)
                         {
-                            Vector2 a = Custom.DirVec(this.dots[k], this.dots[l]) * (Vector2.Distance(this.dots[k], this.dots[l]) - 1.4f);
-                            float num = (float)k / ((float)k + (float)l);
-                            this.dots[k] += a * num;
-                            this.dots[l] -= a * (1f - num);
+                            if (Custom.DistLess(this.dots[k], this.dots[l], 1.4f))
+                            {
+                                Vector2 a = Custom.DirVec(this.dots[k], this.dots[l]) * (Vector2.Distance(this.dots[k], this.dots[l]) - 1.4f);
+                                float num = (float)k / ((float)k + (float)l);
+                                this.dots[k] += a * num;
+                                this.dots[l] -= a * (1f - num);
+                            }
                         }
                     }
                 }
+                float num2 = 1f;
+                float num3 = -1f;
+                float num4 = 1f;
+                float num5 = -1f;
+                for (int m = 0; m < this.dots.Length; m++)
+                {
+                    num2 = Mathf.Min(num2, this.dots[m].x);
+                    num3 = Mathf.Max(num3, this.dots[m].x);
+                    num4 = Mathf.Min(num4, this.dots[m].y);
+                    num5 = Mathf.Max(num5, this.dots[m].y);
+                }
+                for (int n = 0; n < this.dots.Length; n++)
+                {
+                    this.dots[n].x = -1f + 2f * Mathf.InverseLerp(num2, num3, this.dots[n].x);
+                    this.dots[n].y = -1f + 2f * Mathf.InverseLerp(num4, num5, this.dots[n].y);
+                }
+                float num6 = 0f;
+                for (int num7 = 0; num7 < this.dots.Length; num7++)
+                { num6 = Mathf.Max(num6, this.dots[num7].magnitude); }
+                for (int num8 = 0; num8 < this.dots.Length; num8++)
+                { this.dots[num8] /= num6; }
             }
-            float num2 = 1f;
-            float num3 = -1f;
-            float num4 = 1f;
-            float num5 = -1f;
-            for (int m = 0; m < this.dots.Length; m++)
-            {
-                num2 = Mathf.Min(num2, this.dots[m].x);
-                num3 = Mathf.Max(num3, this.dots[m].x);
-                num4 = Mathf.Min(num4, this.dots[m].y);
-                num5 = Mathf.Max(num5, this.dots[m].y);
-            }
-            for (int n = 0; n < this.dots.Length; n++)
-            {
-                this.dots[n].x = -1f + 2f * Mathf.InverseLerp(num2, num3, this.dots[n].x);
-                this.dots[n].y = -1f + 2f * Mathf.InverseLerp(num4, num5, this.dots[n].y);
-            }
-            float num6 = 0f;
-            for (int num7 = 0; num7 < this.dots.Length; num7++)
-            { num6 = Mathf.Max(num6, this.dots[num7].magnitude); }
-            for (int num8 = 0; num8 < this.dots.Length; num8++)
-            { this.dots[num8] /= num6; }
-            this.segments = new Vector2[(int)Mathf.Lerp(3f, 8f, UnityEngine.Random.value), 3]; //15f
-            this.growth = SporeCatSupplement.recoverTime;
         }
 
         #region Patching

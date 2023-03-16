@@ -77,7 +77,6 @@
     <Compile Include="ModifyCat.cs" />
     <Compile Include="ModifyWorld.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PublicBee.cs" />
     <Compile Include="SporeCat\SporeCatDecoration.cs" />
     <Compile Include="SporeCat\SporeCatPuffBall.cs" />
     <Compile Include="SporeCat\SporeCatPuffVisionObscurer.cs" />
