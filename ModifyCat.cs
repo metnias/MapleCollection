@@ -233,6 +233,11 @@ namespace MapleCollection
                         if (item is SporeCatPuffBall)
                         {
                             if (!self.CanGrabItem(item) || item.grabbedBy.Count != 0) continue;
+                            if ((item as SporeCatPuffBall).mode == Weapon.Mode.OnBack)
+                            {
+                                if (self.creature.Room.shelter) return; // don't starve sporecat in shelter!
+                                rng *= 12f; // much less likely to grab
+                            }
                             //brave pups are less inclined to pick up objects in general
                             if (rng < Mathf.Lerp(0f, 0.9f, Mathf.InverseLerp(0.4f, 1f, self.cat.abstractCreature.personality.bravery)))
                             {
