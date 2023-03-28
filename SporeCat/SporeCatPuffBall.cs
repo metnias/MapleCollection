@@ -234,7 +234,7 @@ namespace MapleCollection.SporeCat
         public bool Matured => growth >= SporeCatSupplement.recoverTime;
 
         public Player owner;
-        private SporeCatSupplement OwnerSub => ModifyCat.GetSub(owner) as SporeCatSupplement;
+        public SporeCatSupplement ownerSub;
 
         public override void NewRoom(Room newRoom)
         {
@@ -294,7 +294,7 @@ namespace MapleCollection.SporeCat
             {
                 if (this.room.ViewedByAnyCamera(base.firstChunk.pos, 300f))
                 {
-                    float spread = this.OwnerSub.Charge > 0f ? (3f + 6f * this.OwnerSub.Charge) : 1f;
+                    float spread = this.ownerSub.Charge > 0f ? (3f + 6f * this.ownerSub.Charge) : 1f;
                     this.smoke.EmitSmoke(this.segments[this.segments.GetLength(0) - 1, 0],
                         Custom.DirVec(this.segments[this.segments.GetLength(0) - 2, 0], this.segments[this.segments.GetLength(0) - 1, 0])
                         + Custom.RNV() * spread + this.segments[this.segments.GetLength(0) - 1, 2], this.sporeColor);
@@ -472,8 +472,8 @@ namespace MapleCollection.SporeCat
             if (this.blink > 0)
             {
                 float b = this.blink > 1 ? 1f : 0f;
-                if (OwnerSub.Charge > 0f)
-                { b = this.blink > 1 && UnityEngine.Random.value < 0.3f ? Mathf.Clamp(OwnerSub.Charge + 0.2f, 0.2f, 0.8f) : 0f; }
+                if (ownerSub.Charge > 0f)
+                { b = this.blink > 1 && UnityEngine.Random.value < 0.3f ? Mathf.Clamp(ownerSub.Charge + 0.2f, 0.2f, 0.8f) : 0f; }
                 Color c = Color.Lerp(this.color, this.blinkColor, b);
                 sLeaser.sprites[0].color = c; sLeaser.sprites[2].color = c;
             }
@@ -583,9 +583,10 @@ namespace MapleCollection.SporeCat
             this.AddToContainer(sLeaser, rCam, null);
         }
 
-        public void StickToPlayer(Player owner)
+        public void StickToPlayer(Player owner, SporeCatSupplement ownerSub)
         {
             this.owner = owner;
+            this.ownerSub = ownerSub;
             if (this.abstractStick != null)
             { this.abstractStick.Deactivate(); }
             this.abstractStick = new AbstractSporeStick(owner.abstractPhysicalObject, this.abstractPhysicalObject);

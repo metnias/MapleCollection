@@ -10,6 +10,10 @@ using System;
 using MapleCollection.SporeCat;
 using System.Security.Permissions;
 using System.Security;
+using CatSub.Cat;
+using static MapleCollection.MapleEnums;
+using CatSub.Story;
+using RWCustom;
 
 #region Assembly attributes
 
@@ -51,12 +55,15 @@ namespace MapleCollection
             if (init) return;
             init = true;
             lastMSCEnabled = ModManager.MSC;
-            MapleEnums.RegisterExtEnum();
+            RegisterExtEnum();
+            SubRegistry.Register(SlugSpore, (player) => new SporeCatSupplement(player));
+            DecoRegistry.Register(SlugSpore, (player) => new SporeCatDecoration(player));
+            StoryRegistry.RegisterStartPos("LF_A11", new IntVector2(11, 30));
+            StoryRegistry.RegisterTimeline(new StoryRegistry.TimelinePointer(SlugSpore, StoryRegistry.TimelinePointer.Relative.Before, SlugcatStats.Name.Red));
 
-            AddPlayer.SubPatch();
-            ModifyCat.SubPatch();
-            ModifyWorld.SubPatch();
-            TutorialPatch.SubPatch();
+            AddPlayer.Patch();
+            ModifyCat.Patch();
+            ModifyWorld.Patch();
             LogSource.LogInfo("MapleCollection Initialized!");
         }
 

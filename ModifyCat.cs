@@ -1,38 +1,23 @@
-﻿using MapleCollection.SporeCat;
+﻿using CatSub.Cat;
+using MapleCollection.SporeCat;
 using MoreSlugcats;
 using RWCustom;
-using System.Collections.Generic;
 using UnityEngine;
 using static MapleCollection.MapleEnums;
 using static Player;
-
-//using MapleCollection.DragonKnight;
-//using MapleCollection.SugarCat;
 
 namespace MapleCollection
 {
     public static class ModifyCat
     {
-        public static void SubPatch()
+        public static void Patch()
         {
             On.Player.CanEatMeat += CanEatMeatPatch;
             On.Player.Grabability += GrababilityPatch;
             On.Player.ObjectEaten += ObjEatenPatch;
-            On.Player.ctor += CtorPatch;
-            On.Player.Update += UpdatePatch;
             On.Player.GrabUpdate += GrabUpdatePatch;
-            On.Player.Destroy += DestroyPatch;
-            On.PlayerGraphics.InitiateSprites += InitSprPatch;
-            On.PlayerGraphics.Reset += ResetPatch;
-            On.PlayerGraphics.SuckedIntoShortCut += SuckedIntoShortCutPatch;
-            On.PlayerGraphics.DrawSprites += DrawSprPatch;
-            On.PlayerGraphics.AddToContainer += AddToCtnrPatch;
-            On.PlayerGraphics.ApplyPalette += PalettePatch;
-            On.PlayerGraphics.Update += GrafUpdatePatch;
 
             SporeCatPuffBall.SubPatch();
-            subs = new CatSupplement[4]; ghostSubs = new Dictionary<AbstractCreature, CatSupplement>();
-            decos = new CatDecoration[4]; ghostDecos = new Dictionary<AbstractCreature, CatDecoration>();
 
             if (ModManager.MSC) OnMSCEnablePatch();
         }
@@ -81,105 +66,17 @@ namespace MapleCollection
             else { orig.Invoke(self, edible); }
         }
 
-        private static CatSupplement[] subs;
-        private static Dictionary<AbstractCreature, CatSupplement> ghostSubs;
-
-        public static void ClearSubsAndDecos()
-        {
-            for (int i = 0; i < subs.Length; i++) subs[i] = null;
-            ghostSubs.Clear();
-            for (int i = 0; i < decos.Length; i++) decos[i] = null;
-            ghostDecos.Clear();
-        }
-
-        public static CatSupplement GetSub(Player self) => GetSub(self.abstractCreature);
-
-        public static CatSupplement GetSub(AbstractCreature self)
-        {
-            if (!(self.realizedCreature?.State is PlayerState pState)) return null;
-            if (!pState.isGhost) { return subs[pState.playerNumber]; }
-            if (ghostSubs.TryGetValue(self, out var sub)) return sub;
-            return null;
-        }
-
-        private static void CtorPatch(On.Player.orig_ctor orig, Player self, AbstractCreature abstractCreature, World world)
-        {
-            orig.Invoke(self, abstractCreature, world);
-            switch (SwitchName(self.slugcatStats.name))
-            {
-                case MapleSlug.SlugSpore:
-                    {
-                        if (GetSub(self.abstractCreature) != null) break;
-                        if (!self.playerState.isGhost)
-                        {
-                            subs[self.playerState.playerNumber] = new SporeCatSupplement(self.abstractCreature);
-                            decos[self.playerState.playerNumber] = new SporeCatDecoration(self.abstractCreature);
-                        }
-                        else
-                        {
-                            ghostSubs.Add(self.abstractCreature, new SporeCatSupplement(self.abstractCreature));
-                            ghostDecos.Add(self.abstractCreature, new SporeCatDecoration(self.abstractCreature));
-                        }
-                    }
-                    break;
-
-                    /*
-                case MapleSlug.SlugSugar:
-                    if (!self.playerState.isGhost)
-                    {
-                        subs[self.playerState.playerNumber] = new SugarCatSupplement(self);
-                        decos[self.playerState.playerNumber] = new SugarCatDecoration(self);
-                    }
-                    else
-                    {
-                        ghostSubs.Add(new SugarCatSupplement(self));
-                        ghostDecos.Add(new SugarCatDecoration(self));
-                    }
-                    break;
-
-                case MapleSlug.SlugKnight:
-                    if (!self.playerState.isGhost)
-                    {
-                        subs[self.playerState.playerNumber] = new KnightSupplement(self);
-                        decos[self.playerState.playerNumber] = new KnightDecoration(self);
-                    }
-                    else
-                    {
-                        ghostSubs.Add(new KnightSupplement(self));
-                        ghostDecos.Add(new KnightDecoration(self));
-                    }
-                    break;
-                    */
-            }
-        }
-
-        private static void UpdatePatch(On.Player.orig_Update orig, Player self, bool eu)
-        {
-            orig.Invoke(self, eu);
-            if (IsMapleCat(self)) GetSub(self).Update();
-        }
-
         private static void GrabUpdatePatch(On.Player.orig_GrabUpdate orig, Player self, bool eu)
         {
             orig.Invoke(self, eu);
             switch (SwitchName(self.slugcatStats.name))
             {
                 case MapleSlug.SlugSpore:
-                    {
-                        if (self.slugcatStats.name == SlugSpore)
-                        {
-                            if (self.swallowAndRegurgitateCounter > 0 && (GetSub(self) as SporeCatSupplement).Charge > 0f)
-                            { self.swallowAndRegurgitateCounter = 0; }
-                        }
-                    }
+                    if (CatSupplement.TryGetSub(self.playerState, out SporeCatSupplement sporeSub))
+                        if (self.swallowAndRegurgitateCounter > 0 && sporeSub.Charge > 0f)
+                            self.swallowAndRegurgitateCounter = 0;
                     break;
             }
-        }
-
-        private static void DestroyPatch(On.Player.orig_Destroy orig, Player self)
-        {
-            orig(self);
-            if (IsMapleCat(self)) GetSub(self).Destroy();
         }
 
         private static bool CanEatMeatPatch(On.Player.orig_CanEatMeat orig, Player self, Creature crit)
@@ -211,8 +108,10 @@ namespace MapleCollection
                 }
                 if (self.slugcatStats.name == SlugSpore)
                 {
-                    var sporeSub = GetSub(self) as SporeCatSupplement;
-                    if (sporeSub.Charge > 0f) return ObjectGrabability.CantGrab; // can't grab while charging
+                    if (CatSupplement.TryGetSub(self.playerState, out SporeCatSupplement sporeSub))
+                    {
+                        if (sporeSub.Charge > 0f) return ObjectGrabability.CantGrab; // can't grab while charging
+                    }
                 }
                 return ObjectGrabability.OneHand;
             }
@@ -268,80 +167,6 @@ namespace MapleCollection
                 return 5f;
             }
             return orig(self, obj, target);
-        }
-
-        private static CatDecoration[] decos;
-        private static Dictionary<AbstractCreature, CatDecoration> ghostDecos;
-
-        public static CatDecoration GetDeco(PlayerGraphics self) => GetDeco(self.player.abstractCreature);
-
-        public static CatDecoration GetDeco(AbstractCreature self)
-        {
-            if (!(self.realizedCreature?.State is PlayerState pState)) return null;
-            if (!pState.isGhost) { return decos[pState.playerNumber]; }
-            if (ghostDecos.TryGetValue(self, out var deco)) return deco;
-            return null;
-        }
-
-        private static void GrafUpdatePatch(On.PlayerGraphics.orig_Update orig, PlayerGraphics self)
-        {
-            orig.Invoke(self);
-            if (IsMapleCat(self.player)) GetDeco(self).Update();
-        }
-
-        private static void InitSprPatch(On.PlayerGraphics.orig_InitiateSprites orig, PlayerGraphics self,
-            RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam)
-        {
-            if (!IsMapleCat(self.player)) { orig.Invoke(self, sLeaser, rCam); return; }
-            /*
-            if (self.player.slugcatStats.name == SlugSugar && SugarCatDecoration.debug)
-            {
-                if (self.DEBUGLABELS != null && self.DEBUGLABELS.Length > 0)
-                { foreach (DebugLabel l in self.DEBUGLABELS) { l.label.RemoveFromContainer(); } }
-                self.DEBUGLABELS = new DebugLabel[3]
-                    {
-                        new DebugLabel(self.owner, new Vector2(36f, 12f)) { relativePos = true },
-                        new DebugLabel(self.owner, new Vector2(36f, 0f)) { relativePos = true },
-                        new DebugLabel(self.owner, new Vector2(36f, -12f)) { relativePos = true }
-                    };
-                Debug.Log("SlugSugar DebugLabel active");
-            } */
-            orig.Invoke(self, sLeaser, rCam);
-            GetDeco(self).InitiateSprites(sLeaser, rCam);
-        }
-
-        private static void SuckedIntoShortCutPatch(On.PlayerGraphics.orig_SuckedIntoShortCut orig,
-            PlayerGraphics self, Vector2 shortCutPosition)
-        {
-            orig.Invoke(self, shortCutPosition);
-            if (IsMapleCat(self.player)) GetDeco(self).SuckedIntoShortCut();
-        }
-
-        private static void ResetPatch(On.PlayerGraphics.orig_Reset orig, PlayerGraphics self)
-        {
-            orig.Invoke(self);
-            if (IsMapleCat(self.player)) GetDeco(self).Reset();
-        }
-
-        private static void DrawSprPatch(On.PlayerGraphics.orig_DrawSprites orig, PlayerGraphics self,
-            RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, float timeStacker, Vector2 camPos)
-        {
-            orig.Invoke(self, sLeaser, rCam, timeStacker, camPos);
-            if (IsMapleCat(self.player)) GetDeco(self).DrawSprites(sLeaser, rCam, timeStacker, camPos);
-        }
-
-        private static void AddToCtnrPatch(On.PlayerGraphics.orig_AddToContainer orig, PlayerGraphics self,
-            RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, FContainer newContatiner)
-        {
-            orig.Invoke(self, sLeaser, rCam, newContatiner);
-            if (IsMapleCat(self.player)) GetDeco(self).AddToContainer(sLeaser, rCam, newContatiner);
-        }
-
-        private static void PalettePatch(On.PlayerGraphics.orig_ApplyPalette orig, PlayerGraphics self,
-            RoomCamera.SpriteLeaser sLeaser, RoomCamera rCam, RoomPalette palette)
-        {
-            orig.Invoke(self, sLeaser, rCam, palette);
-            if (IsMapleCat(self.player)) GetDeco(self).ApplyPalette(sLeaser, rCam, palette);
         }
     }
 }

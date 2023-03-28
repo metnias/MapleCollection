@@ -20,7 +20,7 @@ namespace MapleCollection
         public static AbstractPhysicalObject.AbstractObjectType SporePuffBall;
         //public static AbstractPhysicalObject.AbstractObjectType SugarSyrup;
 
-        public static PlayerColor ColorSporeDots;
+        //public static PlayerColor ColorSporeDots;
 
         internal static void RegisterExtEnum()
         {
@@ -29,12 +29,16 @@ namespace MapleCollection
             SlugSugar = new SlugcatStats.Name(nameof(SlugSugar), false);
             SlugKnight = new SlugcatStats.Name(nameof(SlugKnight), false);
 
-            ColorSporeDots = new PlayerColor(nameof(ColorSporeDots));
+            //ColorSporeDots = new PlayerColor(nameof(ColorSporeDots));
         }
 
         internal static void UnregisterExtEnum()
         {
             SporePuffBall?.Unregister();
+
+            SlugSpore = null;
+            SlugSugar = null;
+            SlugKnight = null;
         }
     }
 }
