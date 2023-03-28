@@ -1,7 +1,11 @@
 ﻿using CatSub.Cat;
 using HUD;
 using Noise;
+using RWCustom;
+using System;
+using System.Text;
 using UnityEngine;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace MapleCollection.SporeCat
 {
@@ -240,6 +244,19 @@ namespace MapleCollection.SporeCat
             PuffBall(i).OnBackMode();
             PuffBall(i).StickToPlayer(self, this);
             if (i % 2 == 0) PuffBall(i).hideBehindPlayer = new bool?(true);
+        }
+
+        public override string ControlTutorial()
+        {
+            var text = new StringBuilder();
+            text.Append($"{Translate("Sporecat interactions:")}{Environment.NewLine}{Environment.NewLine}");
+            text.Append($"- {Translate("Sporecat's diet is exclusively insectivore, regardless of the prey's size")}{Environment.NewLine}");
+            text.Append($"- {Translate("Hold UP and press PICK UP to grab a Puffball from the tail")}{Environment.NewLine}");
+            text.Append($"- {Translate("Hold DOWN and PICK UP for charged explosion")}{Environment.NewLine}");
+            text.Append($"- {Translate("However, using too many Puffballs costs hunger")}");
+            return text.ToString();
+
+            string Translate(string t) => Custom.rainWorld.inGameTranslator.Translate(t);
         }
     }
 }

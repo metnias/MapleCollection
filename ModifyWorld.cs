@@ -8,9 +8,8 @@ namespace MapleCollection
 {
     public static class ModifyWorld
     {
-        public static void SubPatch()
+        public static void Patch()
         {
-            On.RainWorldGame.ctor += StartPosPatch;
             On.OverWorld.LoadWorld += GetWorldLoaded;
             On.WorldLoader.GeneratePopulation += GenPopSwap;
             VanillaException = new List<CreatureTemplate.Type>()
@@ -87,22 +86,6 @@ namespace MapleCollection
                         MoreSlugcatsEnums.CreatureTemplateType.JungleLeech
                     }
                     );
-            }
-        }
-
-        private static void StartPosPatch(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
-        {
-            orig(self, manager);
-            if (!self.IsStorySession) return;
-            SetStartPosition();
-
-            void SetStartPosition()
-            {
-                for (int i = 0; i < self.Players.Count; i++)
-                    if (self.world.GetAbstractRoom(self.Players[i].pos) != null)
-                        if (self.world.GetAbstractRoom(self.Players[i].pos).shelter) continue;
-                        else if (self.world.GetAbstractRoom(self.Players[i].pos).name == "LF_A11") // Sporecat
-                            self.Players[i].pos.Tile = new IntVector2(11, 30);
             }
         }
 

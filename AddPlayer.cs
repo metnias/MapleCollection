@@ -4,7 +4,7 @@ namespace MapleCollection
 {
     public static class AddPlayer
     {
-        public static void SubPatch()
+        public static void Patch()
         {
             SporeCatPuffBall.SubPatch();
         }

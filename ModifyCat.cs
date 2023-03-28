@@ -2,19 +2,15 @@
 using MapleCollection.SporeCat;
 using MoreSlugcats;
 using RWCustom;
-using System.Collections.Generic;
 using UnityEngine;
 using static MapleCollection.MapleEnums;
 using static Player;
-
-//using MapleCollection.DragonKnight;
-//using MapleCollection.SugarCat;
 
 namespace MapleCollection
 {
     public static class ModifyCat
     {
-        public static void SubPatch()
+        public static void Patch()
         {
             On.Player.CanEatMeat += CanEatMeatPatch;
             On.Player.Grabability += GrababilityPatch;

@@ -11,6 +11,10 @@ namespace MapleCollection.SporeCat
         {
         }
 
+        public SporeCatDecoration() : base()
+        {
+        }
+
         private int GetTailIdx(int idx) => dotIdx[idx]; //Mathf.FloorToInt((OwnerGrp.tail.Length - 1) * ((float)dotIdx / dots.Length));
 
         private Vector2[] dots; private int[] dotIdx;
