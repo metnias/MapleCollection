@@ -92,7 +92,6 @@ namespace MapleCollection
 
         private static void StartPosPatch(On.RainWorldGame.orig_ctor orig, RainWorldGame self, ProcessManager manager)
         {
-            ModifyCat.ClearSubsAndDecos(); // clear
             orig(self, manager);
             if (!self.IsStorySession) return;
             SetStartPosition();

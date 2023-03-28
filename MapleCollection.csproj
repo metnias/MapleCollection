@@ -38,6 +38,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\RWDownpour\BepInEx.dll</HintPath>
     </Reference>
+    <Reference Include="CatSupplement">
+      <HintPath>..\References\RWDownpour\CatSupplement.dll</HintPath>
+    </Reference>
     <Reference Include="HOOKS-Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\References\RWDownpour\HOOKS-Assembly-CSharp.dll</HintPath>
@@ -68,7 +71,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AddPlayer.cs" />
-    <Compile Include="CatDecoration.cs" />
     <None Include="DragonKnight\KnightDecoration.cs" />
     <None Include="DragonKnight\KnightSupplement.cs" />
     <None Include="DragonKnight\PartnerLizard.cs" />
@@ -80,7 +82,6 @@
     <Compile Include="SporeCat\SporeCatDecoration.cs" />
     <Compile Include="SporeCat\SporeCatPuffBall.cs" />
     <Compile Include="SporeCat\SporeCatPuffVisionObscurer.cs" />
-    <Compile Include="CatSupplement.cs" />
     <Compile Include="SporeCat\SporeCatSupplement.cs" />
     <None Include="slugbase\scenes\slugcat - spore.json" />
     <None Include="slugbase\scenes\sleep screen - spore.json" />

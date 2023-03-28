@@ -32,6 +32,6 @@
     "food_max": 8,
     "auto_grab_batflies": false,
     "throw_skill": 0,
-    "world_state": [ "Gourmand", "Red" ]
+    "world_state": "Red"
   }
 }

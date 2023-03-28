@@ -10,6 +10,8 @@ using System;
 using MapleCollection.SporeCat;
 using System.Security.Permissions;
 using System.Security;
+using CatSub.Cat;
+using static MapleCollection.MapleEnums;
 
 #region Assembly attributes
 
@@ -51,7 +53,8 @@ namespace MapleCollection
             if (init) return;
             init = true;
             lastMSCEnabled = ModManager.MSC;
-            MapleEnums.RegisterExtEnum();
+            RegisterExtEnum();
+            SubRegistry.Register(SlugSpore, (player) => new SporeCatSupplement(player));
 
             AddPlayer.SubPatch();
             ModifyCat.SubPatch();
