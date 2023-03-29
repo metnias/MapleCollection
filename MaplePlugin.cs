@@ -36,12 +36,12 @@ namespace MapleCollection
     {
         public const string PLUGIN_ID = "com.rainworldgame.maplecollection.plugin";
         public const string PLUGIN_NAME = "MapleCollection";
-        public const string PLUGIN_VERSION = "2.0.0.4";
+        public const string PLUGIN_VERSION = "2.1.0.1";
 
         public void OnEnable()
         {
             LogSource = this.Logger;
-            On.RainWorld.OnModsInit += OnInit;
+            On.RainWorld.OnModsInit += WrapInit(OnInit);
             On.RainWorld.OnModsEnabled += OnModsEnabled;
             On.RainWorld.OnModsDisabled += OnModsDisabled;
         }
@@ -49,11 +49,8 @@ namespace MapleCollection
         private static bool init = false;
         internal static ManualLogSource LogSource;
 
-        private static void OnInit(On.RainWorld.orig_OnModsInit orig, RainWorld rw)
+        private static void OnInit(RainWorld rw)
         {
-            orig(rw);
-            if (init) return;
-            init = true;
             lastMSCEnabled = ModManager.MSC;
             RegisterExtEnum();
             SubRegistry.Register(SlugSpore, (player) => new SporeCatSupplement(player));
@@ -65,6 +62,26 @@ namespace MapleCollection
             ModifyCat.Patch();
             ModifyWorld.Patch();
             LogSource.LogInfo("MapleCollection Initialized!");
+        }
+
+        public static On.RainWorld.hook_OnModsInit WrapInit(Action<RainWorld> loadResources)
+        {
+            return (orig, self) =>
+            {
+                orig(self);
+
+                if (init) return;
+
+                try
+                {
+                    loadResources(self);
+                }
+                catch (Exception e)
+                {
+                    Debug.LogException(e);
+                }
+                init = true;
+            };
         }
 
         private static bool lastMSCEnabled;
