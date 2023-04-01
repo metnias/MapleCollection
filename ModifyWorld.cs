@@ -106,11 +106,12 @@ namespace MapleCollection
 
         private static bool IsAirFocusedRegion(World world)
         {
+            if (VanillaAirRegion.TryGetValue(world.region.name, out var res)) return res;
             AbstractRoom[] rooms = world.abstractRooms;
             int fallCount = 0;
-            for (int i = 0; i < rooms.Length; i++)
-            { if (CheckFallRoom(rooms[i])) { fallCount++; } }
-            MaplePlugin.LogSource.LogInfo(string.Concat("Sporecat SkyRegion Check ", world.name, " fallCount: ", fallCount, "/", rooms.Length, " Verdict: ", fallCount > rooms.Length * 0.35f));
+            for (int i = 0; i < rooms.Length; ++i)
+                if (CheckFallRoom(rooms[i])) ++fallCount;
+            MaplePlugin.LogSource.LogInfo($"Sporecat SkyRegion Check {world.name} fallCount: {fallCount}/{rooms.Length} Verdict: {fallCount > rooms.Length * 0.35f}");
             return fallCount > rooms.Length * 0.35f;
         }
 
@@ -120,7 +121,7 @@ namespace MapleCollection
             try
             {
                 string[] lines = File.ReadAllLines(WorldLoader.FindRoomFile(room.name, false, ".txt"));
-                if (lines[1].Split(new char[] { '|' })[1] != "-1") { return false; } // water
+                if (lines[1].Split(new char[] { '|' })[1] != "-1") return false; // water
                 string[] array = lines[1].Split(new char[] { '|' })[0].Split(new char[] { '*' });
                 int width = Convert.ToInt32(array[0]); int height = Convert.ToInt32(array[1]);
                 string[] array5 = lines[11].Split(new char[] { '|' });
@@ -143,6 +144,33 @@ namespace MapleCollection
 
         private static List<CreatureTemplate.Type> VanillaException;
         private static List<CreatureTemplate.Type> WaterCreatures;
+
+        private static readonly Dictionary<string, bool> VanillaAirRegion = new Dictionary<string, bool>()
+        {
+            {"CC", true },
+            {"DS", false },
+            {"GW", false },
+            {"HI", false },
+            {"LF", false },
+            {"SB", false },
+            {"SH", false },
+            {"SI", true },
+            {"SL", false },
+            {"SS", false },
+            {"SU", false },
+            {"UW", true },
+
+            {"CL", true },
+            {"DM", true },
+            {"HR", true },
+            {"LC", true },
+            {"LM", false },
+            {"MS", false },
+            {"OE", false },
+            {"RM", false },
+            {"UG", false },
+            {"VS", false }
+        };
 
         private static void GenPopSwap(On.WorldLoader.orig_GeneratePopulation orig, WorldLoader self, bool fresh)
         {
