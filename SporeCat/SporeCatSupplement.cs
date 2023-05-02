@@ -147,7 +147,7 @@ namespace MapleCollection.SporeCat
             {
                 if (self.playerState.foodInStomach >= 1 && self.abstractCreature.world.game.GetStorySession.saveState.totFood >= 1)
                 {
-                    self.AddFood(-1);
+                    self.SubtractFood(1);
                     sporeEnergy += energyPerHunger;
                 }
                 else if (energyLimit > 1)
