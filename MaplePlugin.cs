@@ -38,7 +38,7 @@ namespace MapleCollection
     {
         public const string PLUGIN_ID = "com.rainworldgame.maplecollection.plugin";
         public const string PLUGIN_NAME = "MapleCollection";
-        public const string PLUGIN_VERSION = "2.1.0.1";
+        public const string PLUGIN_VERSION = "2.1.0.2";
 
         public void OnEnable()
         {
