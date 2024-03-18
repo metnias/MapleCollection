@@ -1,11 +1,11 @@
 {
   "id": "maplecollection",
   "name": "The Sporecat",
-  "version": "2.1.0.2",
+  "version": "2.1.0.3",
   "hide_version": false,
   "authors": "Maplecat & topicular",
   "description": "Adds a new slugcat campaign named Sporecat, a cautious insectivore.",
-  "target_game_version": "v1.9.0",
+  "target_game_version": "v1.9",
   "requirements": [ "slime-cubed.slugbase", "topicular.catsupplement" ],
   "requirements_names": [ "SlugBase", "CatSupplement" ],
   "tags": [ "Campaigns", "Game Mechanics" ],
