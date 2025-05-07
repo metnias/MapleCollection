@@ -26,6 +26,7 @@
     "select_menu_scene": "slugcat - spore",
     "select_menu_scene_ascended": "spore ghost slugcat",
     "sleep_scene": "sleep screen - spore",
+    "timeline_before": "Red",
 
     "has_dreams": false,
     "food_min": 5,

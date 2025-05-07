@@ -1,11 +1,9 @@
 ﻿using CatSub.Cat;
-using HUD;
 using Noise;
 using RWCustom;
 using System;
 using System.Text;
 using UnityEngine;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace MapleCollection.SporeCat
 {
@@ -33,7 +31,7 @@ namespace MapleCollection.SporeCat
         private const int chargeTime = 30; // frames to hold Grab for charge explode
         public float Charge => Mathf.Clamp01((float)this.pressedTime / chargeTime);
 
-        public override string TargetSubVersion => "1.0";
+        public override string TargetSubVersion => "1.2";
 
         private WorldCoordinate pos;
         private const int maxPuff = 4;

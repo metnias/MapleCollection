@@ -1,4 +1,5 @@
-﻿using MoreSlugcats;
+﻿using Watcher;
+using MoreSlugcats;
 using RWCustom;
 using System;
 using System.Collections.Generic;
@@ -10,7 +11,7 @@ namespace MapleCollection
     {
         public static void Patch()
         {
-            On.OverWorld.LoadWorld += GetWorldLoaded;
+            On.OverWorld.LoadWorld_string_Name_bool += GetWorldLoaded;
             On.WorldLoader.GeneratePopulation += GenPopSwap;
             VanillaException = new List<CreatureTemplate.Type>()
             {
@@ -55,7 +56,30 @@ namespace MapleCollection
                 CreatureTemplate.Type.TempleGuard,
                 CreatureTemplate.Type.Deer
             };
-            WaterCreatures = new List<CreatureTemplate.Type>();
+            WaterCreatures = new List<CreatureTemplate.Type>()
+            {
+                CreatureTemplate.Type.JetFish,
+                CreatureTemplate.Type.SeaLeech,
+            };
+            if (ModManager.DLCShared)
+            {
+                VanillaException.AddRange(
+                    new CreatureTemplate.Type[]
+                    {
+                        // Special
+                        DLCSharedEnums.CreatureTemplateType.Inspector,
+                        DLCSharedEnums.CreatureTemplateType.TerrorLongLegs,
+                        DLCSharedEnums.CreatureTemplateType.ScavengerElite,
+                        // Insects
+                        DLCSharedEnums.CreatureTemplateType.AquaCenti,
+                        DLCSharedEnums.CreatureTemplateType.MotherSpider,
+                        DLCSharedEnums.CreatureTemplateType.Yeek,
+                        // Water based
+                        DLCSharedEnums.CreatureTemplateType.BigJelly,
+                        DLCSharedEnums.CreatureTemplateType.JungleLeech
+                    }
+                    );
+            }
             if (ModManager.MSC)
             {
                 VanillaException.AddRange(
@@ -64,32 +88,46 @@ namespace MapleCollection
                         // Special
                         MoreSlugcatsEnums.CreatureTemplateType.SlugNPC,
                         MoreSlugcatsEnums.CreatureTemplateType.HunterDaddy,
-                        MoreSlugcatsEnums.CreatureTemplateType.Inspector,
-                        MoreSlugcatsEnums.CreatureTemplateType.TerrorLongLegs,
                         MoreSlugcatsEnums.CreatureTemplateType.ScavengerKing,
-                        MoreSlugcatsEnums.CreatureTemplateType.ScavengerElite,
                         // Insects
-                        MoreSlugcatsEnums.CreatureTemplateType.AquaCenti,
                         MoreSlugcatsEnums.CreatureTemplateType.FireBug,
-                        MoreSlugcatsEnums.CreatureTemplateType.MotherSpider,
-                        MoreSlugcatsEnums.CreatureTemplateType.Yeek,
-                        // Water based
-                        MoreSlugcatsEnums.CreatureTemplateType.BigJelly,
-                        MoreSlugcatsEnums.CreatureTemplateType.JungleLeech
                     }
                     );
                 WaterCreatures.AddRange(
                     new CreatureTemplate.Type[]
                     {
-                        CreatureTemplate.Type.JetFish,
-                        CreatureTemplate.Type.SeaLeech,
-                        MoreSlugcatsEnums.CreatureTemplateType.JungleLeech
+                        DLCSharedEnums.CreatureTemplateType.JungleLeech
+                    }
+                    );
+            }
+            if (ModManager.Watcher)
+            {
+                VanillaException.AddRange(
+                    new CreatureTemplate.Type[]
+                    {
+                        // Special
+                        WatcherEnums.CreatureTemplateType.Rattler,
+                        WatcherEnums.CreatureTemplateType.Rat,
+                        WatcherEnums.CreatureTemplateType.SkyWhale,
+                        WatcherEnums.CreatureTemplateType.Loach,
+                        WatcherEnums.CreatureTemplateType.RotLoach,
+                        WatcherEnums.CreatureTemplateType.ScavengerDisciple,
+                        WatcherEnums.CreatureTemplateType.ScavengerTemplar,
+                        WatcherEnums.CreatureTemplateType.Tardigrade,
+                        // Insects
+                        WatcherEnums.CreatureTemplateType.Frog,
+                    }
+                    );
+                WaterCreatures.AddRange(
+                    new CreatureTemplate.Type[]
+                    {
+                        WatcherEnums.CreatureTemplateType.Barnacle,
                     }
                     );
             }
         }
 
-        private static void GetWorldLoaded(On.OverWorld.orig_LoadWorld orig, OverWorld self, string worldName, SlugcatStats.Name playerCharacterNumber, bool singleRoomWorld)
+        private static void GetWorldLoaded(On.OverWorld.orig_LoadWorld_string_Name_bool orig, OverWorld self, string worldName, SlugcatStats.Name playerCharacterNumber, bool singleRoomWorld)
         {
             mapleworld = ModifyCat.SwitchName(playerCharacterNumber);
             orig(self, worldName, playerCharacterNumber, singleRoomWorld);
@@ -186,13 +224,13 @@ namespace MapleCollection
                     {
                         if (VanillaException.Contains(spawner.creatureType))
                         {
-                            if (!ModManager.MSC) continue;
+                            if (!ModManager.DLCShared) continue;
                             if (WaterCreatures.Contains(spawner.creatureType))
                             {
                                 if (UnityEngine.Random.value < 0.05f * mul)
                                 {
                                     count++;
-                                    spawner.creatureType = MoreSlugcatsEnums.CreatureTemplateType.AquaCenti;
+                                    spawner.creatureType = DLCSharedEnums.CreatureTemplateType.AquaCenti;
                                     spawner.amount = 1;
                                 }
                             }
@@ -207,7 +245,7 @@ namespace MapleCollection
                             {
                                 count++;
                                 spawner.creatureType = (air && UnityEngine.Random.value < 0.5f) || (spawner.creatureType == CreatureTemplate.Type.CyanLizard ||
-                                    (ModManager.MSC && spawner.creatureType == MoreSlugcatsEnums.CreatureTemplateType.ZoopLizard)) ?
+                                    (ModManager.MSC && spawner.creatureType == DLCSharedEnums.CreatureTemplateType.ZoopLizard)) ?
                                     CreatureTemplate.Type.Centiwing : CreatureTemplate.Type.Centipede;
                             }
                         }
@@ -234,7 +272,7 @@ namespace MapleCollection
                         if (temp.IsLizard)
                         {
                             if (type == CreatureTemplate.Type.RedLizard)
-                            { lineage.creatureTypes[0] = (int)(ModManager.MSC ? MoreSlugcatsEnums.CreatureTemplateType.SpitLizard : CreatureTemplate.Type.GreenLizard); i = 1; }
+                            { lineage.creatureTypes[0] = (int)(ModManager.DLCShared ? DLCSharedEnums.CreatureTemplateType.SpitLizard : CreatureTemplate.Type.GreenLizard); i = 1; }
                             if (UnityEngine.Random.value > 0.3f * mul) { continue; }
                             liz = true;
                         }
@@ -248,9 +286,9 @@ namespace MapleCollection
                             CreatureTemplate.Type critType = IntToType(lineage.creatureTypes[i]);
                             if (VanillaException.Contains(critType))
                             {
-                                if (!ModManager.MSC) continue;
+                                if (!ModManager.DLCShared) continue;
                                 if (WaterCreatures.Contains(critType) && UnityEngine.Random.value < 0.1f * mul)
-                                    lineage.creatureTypes[i] = (int)MoreSlugcatsEnums.CreatureTemplateType.AquaCenti;
+                                    lineage.creatureTypes[i] = (int)DLCSharedEnums.CreatureTemplateType.AquaCenti;
                                 continue;
                             }
                             if (liz)
@@ -259,7 +297,7 @@ namespace MapleCollection
                                     critType == CreatureTemplate.Type.RedLizard ?
                                     (ModManager.MSC ? MoreSlugcatsEnums.CreatureTemplateType.FireBug : CreatureTemplate.Type.RedCentipede) :
                                     (critType == CreatureTemplate.Type.CyanLizard ||
-                                    (ModManager.MSC && critType == MoreSlugcatsEnums.CreatureTemplateType.ZoopLizard) ?
+                                    (ModManager.DLCShared && critType == DLCSharedEnums.CreatureTemplateType.ZoopLizard) ?
                                     CreatureTemplate.Type.Centiwing : CreatureTemplate.Type.Centipede));
                             }
                             else
@@ -267,7 +305,7 @@ namespace MapleCollection
                                 lineage.creatureTypes[i] = (int)(air ?
                                     i < 1 ? CreatureTemplate.Type.SmallNeedleWorm : CreatureTemplate.Type.BigNeedleWorm :
                                     i < 2 ? CreatureTemplate.Type.BigSpider :
-                                    (ModManager.MSC ? MoreSlugcatsEnums.CreatureTemplateType.MotherSpider : CreatureTemplate.Type.SpitterSpider));
+                                    (ModManager.DLCShared ? DLCSharedEnums.CreatureTemplateType.MotherSpider : CreatureTemplate.Type.SpitterSpider));
                             }
                         }
                     }

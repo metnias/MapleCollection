@@ -1,14 +1,8 @@
-﻿using MapleCollection.SporeCat;
-using MapleCollection;
+﻿using MoreSlugcats;
 using RWCustom;
 using Smoke;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.CompilerServices;
-using System.Text;
 using UnityEngine;
-using MoreSlugcats;
 
 namespace MapleCollection.SporeCat
 {
@@ -94,7 +88,7 @@ namespace MapleCollection.SporeCat
 
         public static void SubPatch()
         {
-            On.SporeCloud.ctor += SporeCloudPatch;
+            On.SporeCloud.ctor_Vector2_Vector2_Color_float_AbstractCreature_int_InsectCoordinator += SporeCloudPatch;
             On.AbstractPhysicalObject.Realize += AbsObjPatch;
             On.RegionState.AdaptRegionStateToWorld += RemovePuffFromSave;
             On.ItemSymbol.SpriteNameForItem += SpriteNameForPuff;
@@ -160,7 +154,7 @@ namespace MapleCollection.SporeCat
             return orig.Invoke(obj);
         }
 
-        private static void SporeCloudPatch(On.SporeCloud.orig_ctor orig, SporeCloud self, Vector2 pos, Vector2 vel, Color color, float size, AbstractCreature killTag, int checkInsectsDelay, InsectCoordinator smallInsects)
+        private static void SporeCloudPatch(On.SporeCloud.orig_ctor_Vector2_Vector2_Color_float_AbstractCreature_int_InsectCoordinator orig, SporeCloud self, Vector2 pos, Vector2 vel, Color color, float size, AbstractCreature killTag, int checkInsectsDelay, InsectCoordinator smallInsects)
         {
             orig.Invoke(self, pos, vel, color, size, killTag, checkInsectsDelay, smallInsects);
             self.lifeTime = Mathf.Lerp(170f, 400f, UnityEngine.Random.value) / size;
@@ -215,12 +209,12 @@ namespace MapleCollection.SporeCat
             orig.Invoke(self, eu, support, forwardPower);
         }
 
-        private static void ScavPickUpPatch(On.Scavenger.orig_PickUpAndPlaceInInventory orig, Scavenger scav, PhysicalObject obj)
+        private static void ScavPickUpPatch(On.Scavenger.orig_PickUpAndPlaceInInventory orig, Scavenger scav, PhysicalObject obj, bool lethalityBypass = false)
         {
             if (obj is SporeCatPuffBall pb)
             { if (pb.mode == Mode.OnBack || !pb.Matured) { return; } }
 
-            orig.Invoke(scav, obj);
+            orig.Invoke(scav, obj, lethalityBypass);
         }
 
         #endregion Patching

@@ -38,7 +38,7 @@ namespace MapleCollection
     {
         public const string PLUGIN_ID = "com.rainworldgame.maplecollection.plugin";
         public const string PLUGIN_NAME = "MapleCollection";
-        public const string PLUGIN_VERSION = "2.1.0.3";
+        public const string PLUGIN_VERSION = "2.1.0.5";
 
         public void OnEnable()
         {
@@ -58,7 +58,7 @@ namespace MapleCollection
             SubRegistry.Register(SlugSpore, (player) => new SporeCatSupplement(player));
             DecoRegistry.Register(SlugSpore, (player) => new SporeCatDecoration(player));
             StoryRegistry.RegisterStartPos("LF_A11", new IntVector2(11, 30));
-            StoryRegistry.RegisterTimeline(new StoryRegistry.TimelinePointer(SlugSpore, StoryRegistry.TimelinePointer.Relative.Before, SlugcatStats.Name.Red));
+            //StoryRegistry.RegisterTimeline(new StoryRegistry.TimelinePointer(SlugSpore, StoryRegistry.TimelinePointer.Relative.Before, SlugcatStats.Name.Red));
 
             AddPlayer.Patch();
             ModifyCat.Patch();
